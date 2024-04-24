@@ -1,0 +1,19 @@
+.main_container{
+    display: flex;
+    margin-top: 20px;
+    
+}
+
+.title{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.desc{
+    font-size: 18px;
+}
+
+.link{
+    columns: red;
+    text-decoration: none !important;
+}
