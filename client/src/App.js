@@ -51,6 +51,7 @@ import EditSqftCost from "./components/AdminPanel/EditSqftCost";
 import FloodConnect from "./components/FloodConnect/homePage";
 import ProfilePage from "./components/FloodConnect/profilePage";
 import PostModeration from "./components/AdminPanel/PostModeration";
+import FloodReport from "./components/FloodReport/report";
 
 function App() {
   // const userToken = localStorage.getItem("token");
@@ -96,6 +97,7 @@ function App() {
         )}
         {!userToken && <Route path="/faqs" exact element={<LandingPage />} />}
         {!userToken && <Route path="/edit-profile" element={<LandingPage />} />}
+        {!userToken && <Route path="/flood-report" element={<LandingPage />} />}
         {!userToken && (
           <Route path="/flood-protection-guide" element={<LandingPage />} />
         )}
@@ -171,6 +173,10 @@ function App() {
         ) : (
           <Route path="/home-normalvictim" exact element={<ErrorScreen />} />
         )}
+        {userToken && userRole === "normal victim" ? (
+          <Route path="/flood-report" element={<FloodReport />} />
+        ): 
+        (<Route path="/home-normalvictim" exact element={<ErrorScreen />} />)}
         {userToken && (
           <Route path="/profile/:userId" element={<ProfilePage />} />
         )}

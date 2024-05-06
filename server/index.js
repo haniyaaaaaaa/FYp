@@ -23,6 +23,7 @@ const floodModelRoutes = require("./routes/floodmodels.js");
 const postModModelRoutes = require("./routes/postmoderation.js");
 const prefloodchecklistRoutes = require("./routes/prefloodChecklist.js");
 const postfloodchecklistRoutes = require("./routes/postfloodChecklist.js");
+const reportRoutes = require("./routes/reports.js");
 
 // database connection
 connection();
@@ -61,6 +62,7 @@ app.use("/api/modelcosts", modelCostRoutes);
 app.use("/api/floodmodels", floodModelRoutes);
 app.use("/api/checklist", prefloodchecklistRoutes);
 app.use("/api/checklistt", postfloodchecklistRoutes);
+app.use("/api/flood-report", reportRoutes);
 
 
 const port = process.env.PORT || 5000;

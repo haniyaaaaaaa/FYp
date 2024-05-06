@@ -23,8 +23,13 @@ const ModelView = () => {
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
+      borderRadius: "20px",
+      width: "50%",
+      maxWidth: "500px",
+      padding: "20px",
     },
   };
+
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [userRole, setUserRole] = useState("");
@@ -84,11 +89,11 @@ const ModelView = () => {
 
   const locationOptions = selectedDistrict
     ? locations
-        .find((location) => location.district === selectedDistrict)
-        ?.locations.map((location) => ({
-          label: location,
-          value: location,
-        }))
+      .find((location) => location.district === selectedDistrict)
+      ?.locations.map((location) => ({
+        label: location,
+        value: location,
+      }))
     : [];
 
   const generatePDF = async () => {
@@ -131,7 +136,7 @@ const ModelView = () => {
       <div className="p-10">
         <h2>Model Details</h2>
         <div className={styles.main_container}>
-          <Interactive3DModel modelurl={modelurl}/>
+          <Interactive3DModel modelurl={modelurl} />
           <div className="ml-10">
             <p id="pdf-content" className={styles.title}>
               {title}
@@ -144,7 +149,8 @@ const ModelView = () => {
         <div className="mt-10">
           <button
             onClick={openModal}
-            className="btn-default overflow-hidden relative w-64 bg-blue-500 text-white py-4 px-4 rounded-xl font-bold uppercase transition-all duration-100 hover:shadow-md border border-stone-100 hover:bg-blue-600 hover:-translate-y-[3px]"
+            className="btn-default overflow-hidden relative w-64 text-white py-4 px-4 rounded-xl font-bold uppercase transition-all duration-100 hover:shadow-md border border-stone-100 hover:bg-blue-600 hover:-translate-y-[3px]"
+            style={{ backgroundColor: 'rgb(59, 177, 155)' }}
           >
             <span className="relative">Calculate cost</span>
           </button>
@@ -188,19 +194,26 @@ const ModelView = () => {
           </div>
           <button
             onClick={handleCalculateCost}
-            className="btn-default overflow-hidden relative w-100 mt-10 bg-blue-500 text-white py-2 px-4 rounded-xl transition-all duration-100 hover:shadow-md border border-stone-100 hover:bg-blue-600 hover:-translate-y-[3px]"
+            className="btn-default overflow-hidden relative w-100 mt-10 text-white py-2 px-4 rounded-xl transition-all duration-100 hover:shadow-md border border-stone-100 hover:bg-blue-600 hover:-translate-y-[3px]"
+            style={{ backgroundColor: 'rgb(59, 177, 155)' }}
           >
             <span className="relative">Calculate cost</span>
           </button>
+          <p></p>
+          <p id="pdf-content" style={{ display: 'flex', justifyContent: 'center' }}>
+            {cost} PKR
+          </p>
 
-          <p id="pdf-content">{cost} PKR</p>
 
-          <IconButton>
-            <div onClick={generatePDF}>
-              Download pdf
-              <DownloadButton />
-            </div>
-          </IconButton>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <IconButton>
+              <div onClick={generatePDF}>
+                Download pdf
+                <DownloadButton />
+              </div>
+            </IconButton>
+          </div>
+
         </form>
       </Modal>
     </React.Fragment>

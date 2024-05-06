@@ -24,6 +24,7 @@ import RateReviewIcon from "@mui/icons-material/RateReview";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import SafetyCheckIcon from "@mui/icons-material/SafetyCheck";
 import FloodIcon from "@mui/icons-material/Flood";
+import { Folder } from "@mui/icons-material";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -97,6 +98,17 @@ export default function Navbar() {
           <ListItemButton>
             <FloodIcon style={{ opacity: "0.6", marginRight: "8px" }} />
             <ListItemText primary="Flood Connect" />
+          </ListItemButton>
+        </Link>
+        {/* Flood Report */}
+        <Link
+          to="/flood-report"
+          style={{ textDecoration: "none", color: "inherit" }}
+          onClick={handleNavbarSectionClose}
+        >
+          <ListItemButton>
+            <Folder style={{ opacity: "0.6", marginRight: "8px" }} />
+            <ListItemText primary="Flood Report" />
           </ListItemButton>
         </Link>
         {/* Flood Awarness Campaign */}

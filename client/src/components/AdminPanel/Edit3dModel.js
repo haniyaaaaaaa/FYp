@@ -159,9 +159,10 @@ export default function Edit3dModel() {
         Models
       </Typography.Title>
 
-      <Button type="primary" onClick={handleAddModel}>
+      <Button type="primary" onClick={handleAddModel} style={{ backgroundColor: 'rgb(59, 177, 155)' }}>
         Add Model
       </Button>
+
 
       <Table
         dataSource={floodModels}
@@ -176,6 +177,7 @@ export default function Edit3dModel() {
         visible={visible}
         onCancel={handleCancel}
         onOk={handleSaveModel}
+        footer={null}
       >
         <Form form={form} initialValues={selectedModel}>
           <Form.Item
@@ -206,7 +208,21 @@ export default function Edit3dModel() {
             <Input />
           </Form.Item>
         </Form>
+        <div style={{ textAlign: "center" }}>
+          <Button key="back" onClick={handleCancel} style={{ marginRight: 8 }}>
+            Cancel
+          </Button>
+          <Button
+            key="submit"
+            type="primary"
+            onClick={handleSaveModel}
+            style={{ backgroundColor: 'rgb(59, 177, 155)', borderColor: 'rgb(59, 177, 155)' }}
+          >
+            {selectedModel ? "Edit" : "Add"}
+          </Button>
+        </div>
       </Modal>
+
 
       <div style={{ bottom: "0", width: "100%", marginTop: "auto" }}>
         <Footer />

@@ -1,0 +1,17 @@
+// reports/ReportModel.js
+const mongoose = require("mongoose");
+
+// Define the schema for your flood report
+const reportSchema = new mongoose.Schema({
+    year: Number,
+    month: String,
+    date: Number,
+    location: String,
+    cause: String,
+    deaths: Number,
+    propertyDamages: String
+});
+
+const ReportModel = mongoose.model("reports", reportSchema);
+
+module.exports = ReportModel;
