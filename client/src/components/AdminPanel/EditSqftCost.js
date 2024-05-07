@@ -25,8 +25,7 @@ export default function EditSqftCost() {
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [newDistrict, setNewDistrict] = useState(null);
   const [selectedRecordDistrict, setSelectedRecordDistrict] = useState(null);
-
-  // Function to handle editing a location record
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -199,15 +198,33 @@ export default function EditSqftCost() {
     ? locations.filter((location) => location.district === selectedDistrict)
     : locations;
 
+  const searchedLocations = filteredLocations.filter((location) =>
+    location.location.toLowerCase().includes(searchText.toLowerCase())
+  );
+
   return (
     <div>
-      <NavbarAdmin />
-      <div className="ml-2">
-        <Typography.Title level={2}>SQFT Costs</Typography.Title>
+      <NavbarAdmin style={{ marginBottom: "1rem" }}/>
+      <div
+        className="ml-2"
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+        }}
+      >
+        <Typography.Title level={2} style={{ marginRight: "auto", marginTop: "1rem"}}>
+          SQFT Costs
+        </Typography.Title>
 
-        <Button type="primary" onClick={handleAddLocation}>
-          Add Location
-        </Button>
+        {/* Search Input */}
+        <Input.Search
+          placeholder="Search by location"
+          onChange={(e) => setSearchText(e.target.value)}
+          style={{ width: 200 }}
+        />
+
+        {/* Select District Dropdown */}
         <Select
           showSearch
           style={{ width: 200, marginLeft: 16 }}
@@ -234,17 +251,18 @@ export default function EditSqftCost() {
           <Option value="new">Add New District</Option>
         </Select>
 
-        {newDistrict !== null && (
-          <Input
-            style={{ width: 200, marginLeft: 16 }}
-            placeholder="Enter new district name"
-            value={newDistrict}
-            onChange={(e) => setNewDistrict(e.target.value)}
-          />
-        )}
+        {/* Add Location Button */}
+        <Button
+          type="primary"
+          onClick={handleAddLocation}
+          style={{ backgroundColor: "rgba(59, 177, 155, 1)", marginLeft: 16, marginRight: 16 }}
+        >
+          Add Location
+        </Button>
       </div>
+
       <Table
-        dataSource={filteredLocations}
+        dataSource={searchedLocations}
         columns={columns}
         rowKey="_id"
         pagination={false}
@@ -256,6 +274,7 @@ export default function EditSqftCost() {
         visible={visible}
         onCancel={handleCancel}
         onOk={handleSaveLocation}
+        okButtonProps={{ style: { backgroundColor: "rgb(59, 177, 155)" } }}
       >
         <Form form={form} initialValues={selectedLocation}>
           <Form.Item

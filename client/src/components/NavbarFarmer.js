@@ -23,6 +23,7 @@ import RateReviewIcon from '@mui/icons-material/RateReview';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import SafetyCheckIcon from '@mui/icons-material/SafetyCheck';
 
+
 export default function Navbar() {
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -132,6 +133,7 @@ export default function Navbar() {
                 <ListItemText primary="Videos" />
               </ListItemButton>
             </Link>
+
 
             {/* Flood protection guide */}
             <Link to="/faqs" style={{ textDecoration: 'none', color: 'inherit' }} onClick={handleNavbarSectionClose}>

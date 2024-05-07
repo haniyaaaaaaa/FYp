@@ -29,8 +29,11 @@ unsafe_allow_html = false
 latex = false
 
 
-
 [UI]
+# ...
+# This can either be a css file in your `public` dir or a URL
+custom_css = '/public/stylesheet.css'
+
 # Name of the app and chatbot.
 name = "FloodHelper"
 
@@ -46,7 +49,8 @@ custom_font = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&d
 # Specify a custom build directory for the frontend.
 # This can be used to customize the frontend code.
 # Be careful: If this is a relative path, it should not start with a slash.
-# custom_build = "./public/build"
+custom_build = "../../public/build"
+
 
 
 [meta]

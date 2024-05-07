@@ -1,16 +1,21 @@
+// Import necessary components from antd
 import React, { useState, useEffect } from "react";
-import { Table, Typography, message, Tooltip, Modal, Button } from "antd";
+import { Table, Typography, message, Tooltip, Modal, Button, Select } from "antd";
 import axios from "axios";
 import NavbarAdmin from "./NavbarAdmin";
 import Footer from "../Footer";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import PostWidget from "./widgets/PostWidget";
 
+const { Option } = Select;
+
 export default function PostModeration() {
   const [complaint, setComplaint] = useState([]);
   const [visible, setVisible] = useState(false);
   const [complaintId, setComplaintId] = useState("");
   const [selectedComplaint, setSelectedComplaint] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortValue, setSortValue] = useState("asc");
 
   useEffect(() => {
     const fetchUserComplaint = async () => {
@@ -18,7 +23,6 @@ export default function PostModeration() {
         const response = await axios.get(
           "http://localhost:5000/api/postmoderation/fetch-modposts"
         );
-       
         setComplaint(response.data);
       } catch (error) {
         message.error("No complaint found");
@@ -125,6 +129,30 @@ export default function PostModeration() {
     }
   };
 
+  // Define a function to handle changes in the search input
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Define a function to handle changes in the sort dropdown
+  const handleSortChange = (value) => {
+    setSortValue(value);
+  };
+
+  // Filter complaints based on the search query
+  const filteredComplaints = complaint.filter((item) =>
+    item.firstName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Apply sorting based on the selected value
+  const sortedComplaints = [...filteredComplaints].sort((a, b) => {
+    if (sortValue === "asc") {
+      return a.date.localeCompare(b.date);
+    } else {
+      return b.date.localeCompare(a.date);
+    }
+  });
+
   return (
     <div
       style={{
@@ -135,13 +163,43 @@ export default function PostModeration() {
       }}
     >
       <NavbarAdmin />
-      <Typography.Title
-        level={2}
-        style={{ marginTop: "2rem", marginLeft: "12px" }}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "1rem",
+          marginLeft: "12px",
+          marginRight: "12px",
+        }}
       >
-        Reported Posts
-      </Typography.Title>
-      <Table columns={columns} dataSource={complaint} />
+        <Typography.Title level={2}>Reported Posts</Typography.Title>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <Select
+            value={sortValue}
+            onChange={handleSortChange}
+            style={{ marginRight: "10px", width: 120 }}
+            placeholder="Filter"
+          >
+            <Option value="asc">Oldest First</Option>
+            <Option value="desc">Newest First</Option>
+          </Select>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearch}
+            placeholder="Search by user name"
+            style={{
+              width: "200px",
+              borderRadius: "30px",
+              padding: "5px 10px",
+              border: "1px solid #ccc",
+              outline: "none",
+            }}
+          />
+        </div>
+      </div>
+      <Table columns={columns} dataSource={sortedComplaints} />
 
       <Modal
         title="Respond"

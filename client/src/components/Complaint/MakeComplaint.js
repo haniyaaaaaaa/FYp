@@ -51,7 +51,7 @@ const ComplaintForm = () => {
                 {userRole === 'farmer' ? <NavbarFarmer /> : <NavbarNormalvictim />}
 
                 <div style={{
-                    background: 'linear-gradient(to right, #000000, #333333)',
+                    background: 'linear-gradient(to right, #333333, rgba(59, 177, 155, 1))',
                     color: 'white',
                     padding: '75px 88px',
                     height: '44vh',
@@ -64,13 +64,15 @@ const ComplaintForm = () => {
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', }}>
                     <h2 style={{ textAlign: 'center', paddingTop: '20px', paddingBottom: '20px' }}>Complaint Form</h2>
                     <Textarea
                         minRows={5}
                         cols="50"
                         placeholder="Enter your complaint"
                         size="lg"
+                        //borderRadius= "4px"
+                        //borderColor= "blue"
                         variant="soft"
                         value={complaint}
                         onChange={e => setComplaint(e.target.value)}

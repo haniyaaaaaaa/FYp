@@ -261,7 +261,7 @@ export default function PreFloodChecklist() {
             {userRole === "farmer" ? <NavbarFarmer /> : <NavbarNormalvictim />}
             <div
                 style={{
-                    background: "linear-gradient(to right, #000000, #333333)",
+                    background: 'linear-gradient(to right, #333333, rgba(59, 177, 155, 1))',
                     color: "white",
                     padding: "75px 88px",
                     height: "40vh",

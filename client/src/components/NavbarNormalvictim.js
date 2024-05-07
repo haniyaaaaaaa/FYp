@@ -111,6 +111,18 @@ export default function Navbar() {
             <ListItemText primary="Flood Report" />
           </ListItemButton>
         </Link>
+        {/* Chatbot */}
+        <Link
+          to="/chatbot"
+          style={{ textDecoration: "none", color: "inherit" }}
+          onClick={handleNavbarSectionClose}
+        >
+          <ListItemButton>
+            <Folder style={{ opacity: "0.6", marginRight: "8px" }} />
+            <ListItemText primary="Chatbot" />
+          </ListItemButton>
+        </Link>
+        
         {/* Flood Awarness Campaign */}
         <ListItemButton onClick={handleAwarnessCampaignClick}>
           <CampaignIcon style={{ opacity: "0.6", marginRight: "8px" }} />

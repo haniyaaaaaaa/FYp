@@ -7,17 +7,22 @@ import {
   Modal,
   Input,
   Button,
+  Select,
 } from "antd";
 import axios from "axios";
 import NavbarAdmin from "./NavbarAdmin";
 import Footer from "../Footer";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
+const { Option } = Select;
+
 export default function UserComplaints() {
   const [complaint, setComplaint] = useState([]);
   const [visible, setVisible] = useState(false);
   const [adminResponse, setAdminResponse] = useState("");
   const [complaintId, setComplaintId] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [sortOrder, setSortOrder] = useState("newest");
 
   useEffect(() => {
     const fetchUserComplaint = async () => {
@@ -37,19 +42,16 @@ export default function UserComplaints() {
   const columns = [
     {
       key: 1,
-      title: "User Name", // Merged column title
-      dataIndex: "firstName", // Use "username" as the key for the merged value
-
+      title: "User Name",
+      dataIndex: "firstName",
       width: "20%",
     },
-
     {
       key: 2,
       title: "Complaint",
       dataIndex: "complaint",
       width: "45%",
     },
-
     {
       key: 3,
       title: "Date",
@@ -86,15 +88,11 @@ export default function UserComplaints() {
   };
 
   const handleOk = async () => {
-    // Handle logic when send button is clicked
-    // You can perform API calls to save the response or any other logic
-
     if (!adminResponse) {
       message.error("Please enter response");
       return;
     }
 
-    //write
     const url = `http://localhost:5000/api/complaint/save-response/${complaintId}`;
     const response = await axios.post(url, { adminResponse });
 
@@ -107,6 +105,26 @@ export default function UserComplaints() {
     setVisible(false);
   };
 
+  const handleSearch = (value) => {
+    setSearchText(value);
+  };
+
+  const handleSortOrderChange = (value) => {
+    setSortOrder(value);
+  };
+
+  const filteredData = complaint.filter((item) =>
+    item.firstName.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  const filteredAndSortedData = filteredData.sort((a, b) => {
+    if (sortOrder === "newest") {
+      return new Date(b.date) - new Date(a.date); // Sort newest first
+    } else if (sortOrder === "oldest") {
+      return new Date(a.date) - new Date(b.date); // Sort oldest first
+    }
+  });
+
   return (
     <div
       style={{
@@ -117,19 +135,31 @@ export default function UserComplaints() {
       }}
     >
       <NavbarAdmin />
-      <Typography.Title
-        level={2}
-        style={{ marginTop: "2rem", marginLeft: "12px" }}
-      >
-        User Complaints
-      </Typography.Title>
-      <Table columns={columns} dataSource={complaint} />
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2rem', marginLeft: '12px', marginRight: '12px' }}>
+        <Typography.Title level={2}>User Complaints</Typography.Title>
+        <div>
+          <Input
+            placeholder="Search by user name"
+            onChange={(e) => handleSearch(e.target.value)}
+            style={{ width: 200, marginRight: 16 }}
+          />
+          <Select
+            defaultValue="Sort by"
+            onChange={handleSortOrderChange}
+            style={{ width: 120 }}
+          >
+            <Option value="newest">Newest first</Option>
+            <Option value="oldest">Oldest first</Option>
+          </Select>
+        </div>
+      </div>
+      <Table columns={columns} dataSource={filteredAndSortedData} />
 
       <Modal
         title="Respond"
-        open={visible}
-        onOk={handleOk} //when send button is clicked
-        onCancel={handleCancel} //when cancel button is clicked
+        visible={visible}
+        onOk={handleOk}
+        onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
             Cancel
@@ -157,5 +187,3 @@ export default function UserComplaints() {
     </div>
   );
 }
-
-// username, role, date, location, prediction result

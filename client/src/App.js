@@ -52,6 +52,7 @@ import FloodConnect from "./components/FloodConnect/homePage";
 import ProfilePage from "./components/FloodConnect/profilePage";
 import PostModeration from "./components/AdminPanel/PostModeration";
 import FloodReport from "./components/FloodReport/report";
+import Chainlit from "./components/ChainLit/Chainlit";
 
 function App() {
   // const userToken = localStorage.getItem("token");
@@ -143,6 +144,10 @@ function App() {
 
         {userToken && userRole === "normal victim" && (
           <Route path="/" exact element={<HomeNormalvictim />} />
+        )}
+
+        {userToken && (userRole == "normal victim" || userRole == "farmer") && (
+          <Route path="/chatbot" exact element={<Chainlit/>}/>
         )}
 
         {/* {userToken && userRole === 'farmer' && <Route path="/home-farmer" exact element={<HomeFarmer />} />} */}

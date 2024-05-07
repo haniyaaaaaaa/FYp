@@ -4,7 +4,23 @@ from langchain.memory.buffer import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv
 
-import chainlit as cl
+
+# import os
+# from openai import AsyncOpenAI
+
+# from fastapi.responses import JSONResponse
+
+# from chainlit.auth import create_jwt
+# from chainlit.server import app
+
+# import chainlit as cl
+
+
+# @app.get("/custom-auth")
+# async def custom_auth():
+#     # Verify the user's identity with custom logic.
+#     token = create_jwt(cl.User(identifier="Test User"))
+#     return JSONResponse({"token": token})
 
 flood_assistant_template = """
  You are a flood assistant chatbot named "FloodHelper". Your expertise lies in providing information and guidance related to floods and flood management. You specialize in offering advice on what to do before, during, and after a flood, as well as providing information on flood preparedness, safety measures, evacuation procedures, and emergency contacts. You do not provide information outside of this scope. If a question is not related to floods, respond with, "I specialize only in flood-related queries."
@@ -19,6 +35,10 @@ flood_assistant_prompt = PromptTemplate(
 
 
 load_dotenv()
+
+
+
+
 
 @cl.on_chat_start
 def setup_multiple_chains():

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Input, Modal, Table, Tooltip, Typography, message, } from "antd";
+import { Input, Modal, Table, Tooltip, Typography, message, Select, Space } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import axios from "axios";
 import NavbarAdmin from './NavbarAdmin'
 import Footer from "../Footer";
+
+const { Option } = Select;
 
 export default function UserDetails() {
     const [users, setUsers] = useState([]);
@@ -13,6 +15,8 @@ export default function UserDetails() {
     const [editedEmail, setEditedEmail] = useState(null);
     const [record, setRecord] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [searchText, setSearchText] = useState("");
+    const [sortRole, setSortRole] = useState(null);
 
     useEffect(() => {
         // Fetch verified users when the component mounts
@@ -51,15 +55,21 @@ export default function UserDetails() {
             dataIndex: "role",
             filters: [
                 {
-                    text: 'farmer',
+                    text: 'All',
+                    value: 'all',
+                },
+                {
+                    text: 'Farmer',
                     value: 'farmer',
                 },
                 {
-                    text: 'normal victim',
+                    text: 'Normal Victim',
                     value: 'normal victim',
                 },
             ],
-            onFilter: (value, record) => record.role.startsWith(value),
+            filteredValue: sortRole ? [sortRole] : null,
+            onFilter: (value, record) => value === 'all' || record.role === value,
+            render: (text) => text.toUpperCase(),
             width: '20%',
         },
         {
@@ -170,12 +180,41 @@ export default function UserDetails() {
         }
     };
 
+    const handleSearch = (value) => {
+        setSearchText(value);
+    };
+
+    const handleSortRole = (value) => {
+        setSortRole(value);
+    };
+
+    const filteredData = users.filter((user) =>
+        user.firstName.toLowerCase().includes(searchText.toLowerCase())
+    );
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', overflowX: 'hidden' }}>
             <NavbarAdmin />
-            <Typography.Title level={2} style={{ marginTop: '2rem', marginLeft: '12px' }}>User Details</Typography.Title>
-            <Table columns={columns} dataSource={users} />
+            <Typography.Title level={2} style={{ marginTop: '2rem', marginLeft: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span>User Details</span>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Input.Search
+                        placeholder="Search by name"
+                        onChange={(e) => handleSearch(e.target.value)}
+                        style={{ width: 200, marginRight: 16 }}
+                    />
+                    <Select
+                        defaultValue="Sort by Role"
+                        onChange={handleSortRole}
+                        style={{ width: 150, marginRight: 16 }}
+                    >
+                        <Option value="all">All</Option>
+                        <Option value="farmer">Farmer</Option>
+                        <Option value="normal victim">Normal Victim</Option>
+                    </Select>
+                </div>
+            </Typography.Title>
+            <Table columns={columns} dataSource={filteredData} />
 
             <Modal
                 title="Edit User"
