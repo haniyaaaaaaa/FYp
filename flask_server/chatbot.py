@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 # from chainlit.auth import create_jwt
 # from chainlit.server import app
 
-# import chainlit as cl
+import chainlit as cl
 
 
 # @app.get("/custom-auth")
